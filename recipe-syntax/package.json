@@ -1,0 +1,29 @@
+{
+  "name": "recipe-syntax",
+  "displayName": "Recipe List Syntax",
+  "description": "Syntax highlighting for Hy-Vee recipe lists",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "recipe",
+        "aliases": ["Recipe", "recipe"],
+        "extensions": [".recipe", ".rec"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "recipe",
+        "scopeName": "source.recipe",
+        "path": "./syntaxes/recipe.tmLanguage.json"
+      }
+    ]
+  }
+}

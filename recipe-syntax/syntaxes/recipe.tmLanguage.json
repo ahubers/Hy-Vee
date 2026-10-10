@@ -1,0 +1,44 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Recipe",
+  "scopeName": "source.recipe",
+  "patterns": [
+    {
+      "name": "markup.heading.markdown.recipe",
+      "match": "^\\s*#.*$"
+    },
+    {
+      "name": "markup.strikethrough.double-tilde.recipe",
+      "match": "^\\s*~~.*$"
+    },
+    {
+      "name": "punctuation.separator.pipe.recipe",
+      "match": "\\|"
+    },
+    {
+      "name": "comment.line.annotation.recipe",
+      "match": "(?<=\\|).*$"
+    },
+    {
+      "name": "meta.bracket.quantity.recipe",
+      "begin": "\\[",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.bracket.open.recipe" }
+      },
+      "end": "\\]",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.bracket.close.recipe" }
+      },
+      "patterns": [
+        {
+          "name": "keyword.other.unit.recipe",
+          "match": "[0-9]+(?:\\.[0-9]+)?\\s*(?:oz|tbsp|tsp|g|kg|lbs?|cups?|cloves?|pinch|can|bag|bunch)?"
+        }
+      ]
+    },
+    {
+      "name": "entity.name.tag.ingredient.recipe",
+      "match": "^(?:(?!~~)[^#\\|\\[\r\n])+"
+    }
+  ]
+}

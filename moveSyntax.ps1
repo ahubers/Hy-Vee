@@ -1,0 +1,1 @@
+Copy-Item -Recurse -Force -Path ".\recipe-syntax" -Destination "$env:USERPROFILE\.vscode\extensions\"
