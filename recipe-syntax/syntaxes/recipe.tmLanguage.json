@@ -11,6 +11,28 @@
       "name": "markup.strikethrough.double-tilde.recipe",
       "match": "^\\s*~~.*$"
     },
+{
+      "name": "markup.bold.recipe",
+      "begin": "\\*\\*",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.bold.begin.recipe" }
+      },
+      "end": "\\*\\*",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.bold.end.recipe" }
+      }
+    },
+    {
+      "name": "markup.italic.recipe",
+      "begin": "(?<!\\*)\\*(?!\\*)",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.italic.begin.recipe" }
+      },
+      "end": "(?<!\\*)\\*(?!\\*)",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.italic.end.recipe" }
+      }
+    },
     {
       "name": "punctuation.separator.pipe.recipe",
       "match": "\\|"
