@@ -39,10 +39,18 @@
     },
     {
       "name": "meta.ingredient.identifier.recipe",
-      "match": "^\\s*(!)([^|\\[\\r\\n]+)",
+      "match": "^\\s*(!)([^|\\[\\{\\r\\n]+)",
       "captures": {
         "1": { "name": "keyword.operator.identifier.recipe" },
         "2": { "name": "entity.name.tag.ingredient.recipe" }
+      }
+    },
+    {
+      "name": "meta.item-identifier.recipe",
+      "match": "\\{([0-9]+)\\}",
+      "captures": {
+        "0": { "name": "meta.item-identifier.recipe" },
+        "1": { "name": "constant.numeric.item-id.recipe" }
       }
     },
     {
@@ -64,7 +72,7 @@
     },
     {
       "name": "entity.name.tag.ingredient.recipe",
-      "match": "^(?:(?!~~)[^\\|\\[\r\n])+"
+      "match": "^(?:(?!~~)[^\\|\\[\\{\r\n])+"
     }
   ]
 }

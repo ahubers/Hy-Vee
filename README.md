@@ -17,6 +17,8 @@ milk:1415789
 
 the recipe ingredient `!milk` opens `https://www.hy-vee.com/aisles-online/p/1415789`. Database entries use one `keyword:item-id` pair per line.
 
+You can also provide a product ID directly in braces, for example `Peanut Butter Granola {68757} | granola`. This opens `https://www.hy-vee.com/aisles-online/p/68757/` without a database lookup.
+
 ## Build and run
 
 Install GHC and Cabal, then run from the repository root:

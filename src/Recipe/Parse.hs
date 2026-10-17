@@ -3,7 +3,6 @@ module Recipe.Parse
 
 import Control.Monad (unless)
 import Data.Char (isSpace, toLower)
-import Data.Either (partitionEithers)
 import Data.List (isPrefixOf, isSuffixOf)
 import Data.Maybe (catMaybes)
 import qualified Data.Text as Text
@@ -25,11 +24,32 @@ trim = reverse . dropWhile isSpace . reverse . dropWhile isSpace
 -- ----------------------------------------------------------------------------
 -- Atoms
 
+commentTokens :: [String]
+commentTokens = ["|", "#", "~~"]
+
+isCommentLine :: String -> Bool 
+isCommentLine s = or . (map (`isPrefixOf` s)) $ commentTokens
+
 portionParser :: Parser String
 portionParser = char '[' *> many (noneOf "]") <* char ']'
 
+itemIdentifierParser :: Parser Text.Text
+itemIdentifierParser =
+  Text.pack <$> (char '{' *> many1 digit <* char '}')
+
 queryParser :: Parser String
-queryParser = many1 (noneOf "[|")
+queryParser = many1 (noneOf "[|{}")
+
+data IngredientPart
+  = PortionPart String
+  | ItemIdentifierPart Text.Text
+  | QueryPart String
+
+ingredientPartParser :: Parser IngredientPart
+ingredientPartParser =
+  (PortionPart <$> try portionParser)
+    <|> (ItemIdentifierPart <$> try itemIdentifierParser)
+    <|> (QueryPart <$> queryParser)
 
 -- ----------------------------------------------------------------------------
 -- Parse a particular ingredient line
@@ -37,18 +57,26 @@ queryParser = many1 (noneOf "[|")
 ingredientParser :: Parser Ingredient
 ingredientParser = do
   spaces
-  isIdentifier <- option False (True <$ char '!')
-  pieces <- many1 (try (Left <$> portionParser) <|> (Right <$> queryParser))
+  isKeywordIdentifier <- option False (True <$ char '!')
+  pieces <- many1 ingredientPartParser
   comment <- optionMaybe (char '|' *> many anyChar)
   spaces
   eof
-  let (portions, queryParts) = partitionEithers pieces
-      query = trim (concat queryParts)
+  let portions = [portion | PortionPart portion <- pieces]
+      itemIdentifiers = [itemId | ItemIdentifierPart itemId <- pieces]
+      query = trim (concat [part | QueryPart part <- pieces])
+  unless (length itemIdentifiers <= 1) (parserFail "ingredient can have only one item identifier")
+  unless (not (isKeywordIdentifier && not (null itemIdentifiers)))
+    (parserFail "ingredient cannot combine !keyword and {item-id} identifiers")
   unless (not (null query)) (parserFail "ingredient search text cannot be empty")
   pure
     Ingredient
       { query = Text.pack query
-      , isIdentifier
+      , identifier =
+          case itemIdentifiers of
+            itemId : _ -> Just (ItemIdentifier itemId)
+            [] | isKeywordIdentifier -> Just KeywordIdentifier
+            [] -> Nothing
       , portions = map (Text.pack . trim) portions
       , description = Text.pack . trim <$> comment
       }
@@ -61,7 +89,7 @@ parseIngredientLines = traverse parseLine . catMaybes . map eligibleLine
   where
     eligibleLine (lineNumber, source)
       | null trimmed = Nothing
-      | "~~" `isPrefixOf` trimmed = Nothing
+      | isCommentLine trimmed = Nothing
       | otherwise = Just (lineNumber, source)
       where
         trimmed = trim source

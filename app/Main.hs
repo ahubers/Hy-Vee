@@ -6,7 +6,6 @@ import Recipe.Syntax (Recipe (..))
 import Recipe.Parse (parseRecipeFile)
 import System.Environment (getArgs)
 import System.Exit (die)
-import System.Process (spawnProcess)
 
 -- ----------------------------------------------------------------------------
 -- Main
@@ -31,9 +30,4 @@ testParse file = do
   case parseRecipeFile file contents of
     Left parseError -> die parseError
     Right recipe -> putStrLn (show recipe)
-  return ()
-
-testOpen :: String -> IO () 
-testOpen url = do 
-  spawnProcess firefox ["-new-tab", url]
   return ()

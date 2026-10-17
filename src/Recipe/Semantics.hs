@@ -13,7 +13,7 @@ import Data.Map.Strict (Map)
 import qualified Data.Text as Text
 import System.Process (spawnProcess)
 
-import Recipe.Syntax (Ingredient (..), Recipe (..))
+import Recipe.Syntax (Identifier (..), Ingredient (..), Recipe (..))
 import Recipe.Encode
 
 -- ----------------------------------------------------------------------------
@@ -43,7 +43,7 @@ parseItemDatabase = foldM parseEntry Map.empty . zip [1 :: Int ..] . lines
           let (key, suffix) = break (== ':') source
               normalizedKey = Text.toCaseFold (Text.pack (trim key))
               itemId = drop 1 suffix
-           in if null suffix || Text.null normalizedKey || not (all isDigit itemId)
+           in if null suffix || Text.null normalizedKey || null itemId || not (all isDigit itemId)
                 then Left (itemDatabasePath ++ ": invalid entry on line " ++ show lineNumber ++ "; expected keyword:item-id")
                 else
                   if Map.member normalizedKey database
@@ -54,12 +54,14 @@ parseItemDatabase = foldM parseEntry Map.empty . zip [1 :: Int ..] . lines
     trim = reverse . dropWhile isSpace . reverse . dropWhile isSpace
 
 itemUrl :: Map Text.Text Text.Text -> Ingredient -> String
-itemUrl database ingredient
-  | isIdentifier ingredient =
+itemUrl database ingredient =
+  case identifier ingredient of
+    Just (ItemIdentifier itemId) -> productBaseUrl ++ Text.unpack itemId ++ "/"
+    Just KeywordIdentifier ->
       case Map.lookup (Text.toCaseFold (query ingredient)) database of
         Just itemId -> productBaseUrl ++ Text.unpack itemId
         Nothing -> searchUrl ingredient
-  | otherwise = searchUrl ingredient
+    Nothing -> searchUrl ingredient
   where
     productBaseUrl = "https://www.hy-vee.com/aisles-online/p/"
 

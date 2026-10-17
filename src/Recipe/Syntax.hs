@@ -1,5 +1,6 @@
 module Recipe.Syntax
-  ( Ingredient (..)
+  ( Identifier (..)
+  , Ingredient (..)
   , Recipe (..)
   ) where
 
@@ -10,11 +11,16 @@ import Data.Text (Text, unpack)
 -- ----------------------------------------------------------------------------
 -- Ingredients
 
+data Identifier
+  = KeywordIdentifier
+  | ItemIdentifier Text
+  deriving (Eq)
+
 data Ingredient = Ingredient
-  { query        :: Text
-  , isIdentifier :: Bool
-  , portions     :: [Text]
-  , description  :: Maybe Text
+  { query       :: Text
+  , identifier  :: Maybe Identifier
+  , portions    :: [Text]
+  , description :: Maybe Text
   } deriving (Eq)
 
 enclose :: String -> String -> String -> String
@@ -34,10 +40,16 @@ showDescription (Just t) = " | " ++ unpack t
 showDescription _ = ""
 
 instance Show Ingredient where 
-  show (Ingredient { query , isIdentifier , portions , description }) =
-    (if isIdentifier then "!" else "")
+  show (Ingredient { query , identifier , portions , description }) =
+    (case identifier of
+       Just KeywordIdentifier -> "!"
+       Just (ItemIdentifier _) -> ""
+       Nothing -> "")
       ++ unpack query
       ++ showPortions portions
+      ++ (case identifier of
+            Just (ItemIdentifier itemId) -> " {" ++ unpack itemId ++ "}"
+            _ -> "")
       ++ showDescription description
     
 -- ----------------------------------------------------------------------------
