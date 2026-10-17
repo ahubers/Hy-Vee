@@ -1,0 +1,31 @@
+cabal-version: 3.0
+name: hyvee-shop
+version: 0.1.0.0
+build-type: Simple
+
+library
+  hs-source-dirs: src
+  exposed-modules:
+      Recipe.Syntax
+      Recipe.Parse
+      Recipe.Semantics
+      Recipe.Encode
+  build-depends:
+      base >=4.14 && <5
+    , bytestring
+    , filepath
+    , parsec
+    , process
+    , text
+  default-language: Haskell2010
+  ghc-options: -Wall
+  default-extensions: NamedFieldPuns
+
+executable hyvee-shop
+  hs-source-dirs: app
+  main-is: Main.hs
+  build-depends:
+      base >=4.14 && <5
+    , hyvee-shop
+  default-language: Haskell2010
+  ghc-options: -Wall
