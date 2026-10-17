@@ -19,6 +19,12 @@ the recipe ingredient `!milk` opens `https://www.hy-vee.com/aisles-online/p/1415
 
 You can also provide a product ID directly in braces, for example `Peanut Butter Granola {68757} | granola`. This opens `https://www.hy-vee.com/aisles-online/p/68757/` without a database lookup.
 
+An `.order` file can list multiple recipes, one path per line. Paths in the order file are relative to the `recipes` directory; blank lines are ignored. For example, `orders/10-17-26.order` can be passed directly to the executable:
+
+```text
+cabal run hyvee-shop -- orders/10-17-26.order
+```
+
 ## Build and run
 
 Install GHC and Cabal, then run from the repository root:

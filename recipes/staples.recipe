@@ -1,18 +1,26 @@
-# Staples ----------------------
+~~ -----------------------------
+# Staples 
+~~ -----------------------------
 !milk                          | fairfax whole milk, lactose free
-# # Snacks -----------------------
-# cheerios                       |
+~~ -----------------------------
+# Snacks 
+~~ -----------------------------
+cheerios                       |
 cinnamon toast crunch          |
 Peanut Butter Granola {68757}  |
-# rice cakes                     |
-# bananas                        | 
-# apples                         | 
-# blackberries                   | 
-# oranges                        | 
-# almonds                        | 
-# prosciutto                     | 
-# saltines                       | 
-# # Energy Drinks / Coffee -------
-# !Energy
-# # Medicines --------------------
-# miralax
+rice cakes                     |
+bananas                        | 
+apples                         | 
+blackberries                   | 
+oranges                        | 
+almonds                        | 
+prosciutto                     | 
+~~saltines                       | 
+~~ -----------------------------
+# Energy Drinks / Coffee -------
+~~ -----------------------------
+!Energy
+~~ -----------------------------
+# Medicines
+~~ -----------------------------
+miralax

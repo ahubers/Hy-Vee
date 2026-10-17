@@ -33,8 +33,10 @@ firefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe"
 itemDatabasePath :: FilePath
 itemDatabasePath = ".items.recipe-db"
 
+
+
 -- ----------------------------------------------------------------------------
--- Search for each ingredient
+-- Evaluate each recipe
 
 searchUrl :: Ingredient -> String
 searchUrl = (baseUrl ++) . encodeQuery . query
