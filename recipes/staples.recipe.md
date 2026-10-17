@@ -2,7 +2,7 @@
 
 ```
 ~~cheerios
-fairlife whole milk[1 oz] {1415789} | lactose free
+!milk | lactose free
 Chobani yogurt               | 
 peanut butter granola        | 
 bananas                      | 

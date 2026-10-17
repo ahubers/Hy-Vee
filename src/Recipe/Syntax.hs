@@ -11,9 +11,10 @@ import Data.Text (Text, unpack)
 -- Ingredients
 
 data Ingredient = Ingredient
-  { query       :: Text
-  , portions    :: [Text]
-  , description :: Maybe Text
+  { query        :: Text
+  , isIdentifier :: Bool
+  , portions     :: [Text]
+  , description  :: Maybe Text
   } deriving (Eq)
 
 enclose :: String -> String -> String -> String
@@ -33,8 +34,11 @@ showDescription (Just t) = " | " ++ unpack t
 showDescription _ = ""
 
 instance Show Ingredient where 
-  show (Ingredient { query , portions , description }) = 
-    unpack query ++ showPortions portions ++ showDescription description
+  show (Ingredient { query , isIdentifier , portions , description }) =
+    (if isIdentifier then "!" else "")
+      ++ unpack query
+      ++ showPortions portions
+      ++ showDescription description
     
 -- ----------------------------------------------------------------------------
 -- Recipes
@@ -46,4 +50,3 @@ newtype Recipe = Recipe
 
 instance Show Recipe where 
   show (Recipe { ingredients }) = concatMap (++ "\n") . fmap show $ ingredients
-

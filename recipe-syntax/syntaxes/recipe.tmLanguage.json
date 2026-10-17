@@ -38,6 +38,14 @@
       "match": "(?<=\\|).*$"
     },
     {
+      "name": "meta.ingredient.identifier.recipe",
+      "match": "^\\s*(!)([^|\\[\\r\\n]+)",
+      "captures": {
+        "1": { "name": "keyword.operator.identifier.recipe" },
+        "2": { "name": "entity.name.tag.ingredient.recipe" }
+      }
+    },
+    {
       "name": "meta.bracket.quantity.recipe",
       "begin": "\\[",
       "beginCaptures": {

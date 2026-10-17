@@ -37,6 +37,7 @@ queryParser = many1 (noneOf "[|")
 ingredientParser :: Parser Ingredient
 ingredientParser = do
   spaces
+  isIdentifier <- option False (True <$ char '!')
   pieces <- many1 (try (Left <$> portionParser) <|> (Right <$> queryParser))
   comment <- optionMaybe (char '|' *> many anyChar)
   spaces
@@ -47,6 +48,7 @@ ingredientParser = do
   pure
     Ingredient
       { query = Text.pack query
+      , isIdentifier
       , portions = map (Text.pack . trim) portions
       , description = Text.pack . trim <$> comment
       }
