@@ -23,7 +23,7 @@ baseUrl :: String
 baseUrl = "https://www.hy-vee.com/aisles-online/search?search="
 
 firefox :: String 
-firefox = "C:\\Users\\ahube\\OneDrive\\Desktop\\firefox.exe"
+firefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe"
 
 -- ----------------------------------------------------------------------------
 -- Search for each ingredient
@@ -72,5 +72,5 @@ eval (Recipe ingredients) = do
   where
     openSearch url = do
       putStrLn ("Opening: " ++ url)
-      _ <- spawnProcess firefox [url]
+      _ <- spawnProcess firefox ["-new-tab", url]
       threadDelay 500000
