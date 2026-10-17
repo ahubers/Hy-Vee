@@ -2,6 +2,8 @@
 From Half Baked Harvest's **Super Simple**, pp 104.
 
 # Ingredients
+
+```
 chicken breast[1 lb, or 2 breasts]| 
 ~~salt and pepper                 | 
 ~~Thai red curry paste            | 
@@ -15,3 +17,4 @@ baby bok choy[2 cups]             | alternative to spinach; asian store
 egg noodles[8 oz]                 | 
 cilantro                          | garnish
 lime                              | garnish
+```

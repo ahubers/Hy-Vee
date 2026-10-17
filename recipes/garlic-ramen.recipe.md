@@ -1,4 +1,9 @@
+
+# Coconut chickpea curry 
+From Half Baked Harvest's **Super Simple**.
+
 # Ingredients 
+```
 ~~salted butter[6 tbsp]   | 
 ~~garlic cloves[4 tsp]    | 
 ~~ramen noodles[2 packets]| 
@@ -10,5 +15,6 @@ ginger[1 1in pc]          |
 spinach[2-3 cups]         | or other leafy greens
 chicken breast[2 breasts] | 
 eggs[2 fried]             | 
+```
 
 

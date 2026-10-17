@@ -14,7 +14,12 @@
       {
         "id": "recipe",
         "aliases": ["Recipe", "recipe"],
-        "extensions": [".recipe", ".rec"],
+        "extensions": [".recipe", ".rec"]
+      },
+      {
+        "id": "recipe-markdown",
+        "aliases": ["Recipe Markdown"],
+        "extensions": [".recipe.md"],
         "configuration": "./language-configuration.json"
       }
     ],
@@ -23,6 +28,11 @@
         "language": "recipe",
         "scopeName": "source.recipe",
         "path": "./syntaxes/recipe.tmLanguage.json"
+      },
+      {
+        "language": "recipe-markdown",
+        "scopeName": "source.recipe.md",
+        "path": "./syntaxes/recipe-md.tmLanguage.json"
       }
     ]
   }

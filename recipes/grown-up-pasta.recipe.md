@@ -1,7 +1,9 @@
 # Grown up Tomato Parmesan Pasta
 From Half Baked Harvest's "Super Simple" recipe book, pp 130.
 
+
 # Ingredients
+```
 ~~garlic clove[1, smashed]  | or 1 tsp minced garlic
 rosemary[2 tsp]             | chopped, fresh
 ~~ crushed red pepper flakes| 
@@ -9,3 +11,4 @@ rosemary[2 tsp]             | chopped, fresh
 tubular pasta               | e.g., anelli, ditalini
 ~~parmesan cheese           | shaved
 ~~basil leaves              | fresh, for garnish
+```

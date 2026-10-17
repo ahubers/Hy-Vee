@@ -4,14 +4,10 @@
   "scopeName": "source.recipe",
   "patterns": [
     {
-      "name": "markup.heading.markdown.recipe",
-      "match": "^\\s*#.*$"
-    },
-    {
       "name": "markup.strikethrough.double-tilde.recipe",
       "match": "^\\s*~~.*$"
     },
-{
+    {
       "name": "markup.bold.recipe",
       "begin": "\\*\\*",
       "beginCaptures": {
@@ -60,7 +56,7 @@
     },
     {
       "name": "entity.name.tag.ingredient.recipe",
-      "match": "^(?:(?!~~)[^#\\|\\[\r\n])+"
+      "match": "^(?:(?!~~)[^\\|\\[\r\n])+"
     }
   ]
 }
