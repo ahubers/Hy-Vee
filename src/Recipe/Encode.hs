@@ -7,10 +7,10 @@ import Data.Text (Text)
 import qualified Data.Text.Encoding as TextEncoding
 import Data.Word (Word8)
 
--- ----------------------------------------------------------------------------
--- Encoding
+import Recipe.Prelude
 
--- >>> 2 + 2
+-- ----------------------------------------------------------------------------
+-- URL Encoding
 
 encodeQuery :: Text -> String
 encodeQuery = concatMap encodeByte . unpack . TextEncoding.encodeUtf8

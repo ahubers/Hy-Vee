@@ -10,16 +10,8 @@ import Text.Parsec
 import Text.Parsec.String (Parser)
 import System.FilePath (takeExtension)
 
+import Recipe.Prelude
 import Recipe.Syntax
-
--- ----------------------------------------------------------------------------
--- Straightforward string helpers
-
-numberedLines :: String -> [(Int, String)]
-numberedLines = zip [1 ..] . lines
-
-trim :: String -> String
-trim = reverse . dropWhile isSpace . reverse . dropWhile isSpace
 
 -- ----------------------------------------------------------------------------
 -- Atoms
@@ -84,7 +76,7 @@ ingredientParser = do
 -- ----------------------------------------------------------------------------
 -- Parse each (relevant) .recipe line
 
-parseIngredientLines :: [(Int, String)] -> Either String [Ingredient]
+parseIngredientLines :: [(Int, String)] -> Result [Ingredient]
 parseIngredientLines = traverse parseLine . catMaybes . map eligibleLine
   where
     eligibleLine (lineNumber, source)
@@ -103,7 +95,7 @@ parseIngredientLines = traverse parseLine . catMaybes . map eligibleLine
 -- ----------------------------------------------------------------------------
 -- Parse a recipe file and its contents
 
-parseRecipeFile :: FilePath -> String -> Either String Recipe
+parseRecipeFile :: FilePath -> String -> Result Recipe
 parseRecipeFile path contents
   | lowerExtension == ".recipe" =
       Recipe <$> parseIngredientLines (numberedLines contents)
@@ -118,7 +110,7 @@ parseRecipeFile path contents
 -- ----------------------------------------------------------------------------
 -- Parse fenced content (delimited by "```")
 
-fencedContent :: [(Int, String)] -> Either String [(Int, String)]
+fencedContent :: [(Int, String)] -> Result [(Int, String)]
 fencedContent = go False []
   where
     go inside collected []

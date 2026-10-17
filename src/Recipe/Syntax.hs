@@ -7,6 +7,7 @@ module Recipe.Syntax
 import Data.List (intercalate)
 import Data.Text (Text, unpack)
 
+import Recipe.Prelude
 
 -- ----------------------------------------------------------------------------
 -- Ingredients

@@ -6,10 +6,12 @@ build-type: Simple
 library
   hs-source-dirs: src
   exposed-modules:
-      Recipe.Syntax
+      Recipe.Prelude
       Recipe.Parse
       Recipe.Semantics
       Recipe.Encode
+      Recipe.Database
+      Recipe.Syntax      
   build-depends:
       base >=4.14 && <5
     , bytestring

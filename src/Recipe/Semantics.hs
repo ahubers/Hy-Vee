@@ -13,17 +13,25 @@ import Data.Map.Strict (Map)
 import qualified Data.Text as Text
 import System.Process (spawnProcess)
 
+import Recipe.Prelude
 import Recipe.Syntax (Identifier (..), Ingredient (..), Recipe (..))
 import Recipe.Encode
+import Recipe.Database
 
 -- ----------------------------------------------------------------------------
 -- Constants
 
-baseUrl :: String
+baseUrl :: Url
 baseUrl = "https://www.hy-vee.com/aisles-online/search?search="
 
-firefox :: String 
+productBaseUrl :: Url  
+productBaseUrl = "https://www.hy-vee.com/aisles-online/p/" 
+
+firefox :: FilePath
 firefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe"
+
+itemDatabasePath :: FilePath
+itemDatabasePath = ".items.recipe-db"
 
 -- ----------------------------------------------------------------------------
 -- Search for each ingredient
@@ -31,45 +39,17 @@ firefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe"
 searchUrl :: Ingredient -> String
 searchUrl = (baseUrl ++) . encodeQuery . query
 
-itemDatabasePath :: FilePath
-itemDatabasePath = ".items.recipe-db"
-
-parseItemDatabase :: String -> Either String (Map Text.Text Text.Text)
-parseItemDatabase = foldM parseEntry Map.empty . zip [1 :: Int ..] . lines
-  where
-    parseEntry database (lineNumber, source)
-      | all isSpace source = Right database
-      | otherwise =
-          let (key, suffix) = break (== ':') source
-              normalizedKey = Text.toCaseFold (Text.pack (trim key))
-              itemId = drop 1 suffix
-           in if null suffix || Text.null normalizedKey || null itemId || not (all isDigit itemId)
-                then Left (itemDatabasePath ++ ": invalid entry on line " ++ show lineNumber ++ "; expected keyword:item-id")
-                else
-                  if Map.member normalizedKey database
-                    then Left (itemDatabasePath ++ ": duplicate keyword on line " ++ show lineNumber)
-                    else Right (Map.insert normalizedKey (Text.pack itemId) database)
-
-    isDigit character = character >= '0' && character <= '9'
-    trim = reverse . dropWhile isSpace . reverse . dropWhile isSpace
-
-itemUrl :: Map Text.Text Text.Text -> Ingredient -> String
+itemUrl :: Database -> Ingredient -> String
 itemUrl database ingredient =
-  case identifier ingredient of
-    Just (ItemIdentifier itemId) -> productBaseUrl ++ Text.unpack itemId ++ "/"
-    Just KeywordIdentifier ->
-      case Map.lookup (Text.toCaseFold (query ingredient)) database of
-        Just itemId -> productBaseUrl ++ Text.unpack itemId
-        Nothing -> searchUrl ingredient
-    Nothing -> searchUrl ingredient
-  where
-    productBaseUrl = "https://www.hy-vee.com/aisles-online/p/"
+  case getId database ingredient of 
+    Just i -> productBaseUrl ++ i ++ "/"
+    _      -> searchUrl ingredient
 
 eval :: Recipe -> IO ()
 eval (Recipe ingredients) = do
   databaseContents <- readFile itemDatabasePath
   database <-
-    either (ioError . userError) pure (parseItemDatabase databaseContents)
+    either (ioError . userError) pure (parseItemDatabase itemDatabasePath databaseContents)
   mapM_ openSearch (nub (map (itemUrl database) ingredients))
   where
     openSearch url = do
