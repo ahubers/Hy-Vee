@@ -15,5 +15,5 @@ shredded mozzarella[1c]
 nectarine                    | or peach, one
 ~~black berries[6]           |
 ~~Balsamic vinegar
-honey                        | for drizzling
+~~honey                        | for drizzling
 ```
