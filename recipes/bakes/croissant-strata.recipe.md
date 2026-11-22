@@ -14,6 +14,6 @@ eggs[8]                      | large
 spinach[12 oz]               | She writes 12oz frozen, 
                              | can also do 2 cups baby spinach
 Shredded Gouda[1.5 cups]     |
-~~Shredded Gruyere[1.5 cups] |
+Shredded Gruyere[1.5 cups] |
 Prosciutto[3 oz]             |
 ```
